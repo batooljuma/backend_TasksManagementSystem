@@ -1,19 +1,21 @@
-const {DATABASE, DATABASE_HOST, DATABASE_USER, DATABASE_PAEEWORD} = process.env;
+const mysql = require('mysql');
+const dotenv = require('dotenv');
+dotenv.config(); 
 
-var mysql = require("mysql");
-
-var conn = mysql.createConnection({
-    host: DATABASE_HOST,
-    user: DATABASE_USER,
-    password: DATABASE_PAEEWORD,
-    database: DATABASE
+const db = mysql.createConnection({
+  host: process.env.DB_HOST, 
+  
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
 });
 
-conn.connect( (error) => {
-    if(error){
-        throw error;
-    }else {
-        console.log( DATABASE + " DataBase Connecttion ...")
-    }
+db.connect((err) => {
+  if (err) {
+    console.error('erroe in connect database', err);
+    return;
+  }
+  console.log('done connecting in db ');
 });
-module.exports=conn;
+
+module.exports = db; 
